@@ -29,3 +29,6 @@
 
 (defn all [xs]
   (every? true? xs))
+
+(defn any [xs]
+  (some true? xs))
