@@ -1,4 +1,18 @@
-(ns me.lsund.util)
+(ns me.lsund.util
+  (:require [clojure.set :as set]))
+
+(defn select-keys-with-nil [m ks]
+  "The result of [[(select-keys m ks)]] but if an element is present in ks but not in m,
+   add it with value nil. Order is not necessarily retained.
+
+   Example:
+   (select-keys-with-nil m [:a :b :d])
+    => {:b 2, :d nil, :a 1}"
+  (let [present-keys (select-keys m ks)
+        missing-keys (set/difference (set ks) (set (keys m)))]
+    (merge (apply hash-map (interleave missing-keys (cycle [nil])))
+           present-keys)))
+
 
 (defmacro .+ [& rest]
   `((comp ~@(butlast rest)) ~(last rest)))
