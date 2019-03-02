@@ -3,8 +3,10 @@
             [me.lsund.util :refer [select-keys-with-nil]]
             [compojure.core :as compojure]))
 
-(defmacro generate-routes [routes-file & xs#]
-  (let [route-spec# (edn/read-string (slurp routes-file))]
+(defmacro generate-routes [routes-spec & xs#]
+  (let [route-spec# (if (string? routes-spec)
+                      (edn/read-string (slurp routes-spec))
+                      routes-spec)]
     `(compojure/routes
       ~@(for [[method path args & body] xs#]
           (case method
