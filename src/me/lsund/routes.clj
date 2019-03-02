@@ -6,7 +6,7 @@
 (defmacro generate-routes [routes-spec & xs#]
   (let [route-spec# (if (string? routes-spec)
                       (edn/read-string (slurp routes-spec))
-                      routes-spec)]
+                      @(ns-resolve *ns* routes-spec))]
     `(compojure/routes
       ~@(for [[method path args & body] xs#]
           (case method
