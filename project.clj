@@ -1,4 +1,4 @@
-(defproject me.lsund/util "0.4.4-SNAPSHOT"
+(defproject me.lsund/util "0.4.4"
   :description "Personal utilities"
   :url "https://clojars.org/me.lsund/util"
   :dependencies [[org.clojure/clojure "1.8.0"]
