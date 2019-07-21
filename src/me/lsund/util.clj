@@ -7,7 +7,7 @@
 (defn any [xs]
   (some true? xs))
 
-(defn- const
+(defn const
   "Always return the first argument, discard the rest."
   [x & _]
   x)
