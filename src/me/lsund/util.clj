@@ -1,6 +1,11 @@
 (ns me.lsund.util
   (:require [clojure.set :as set]))
 
+(defmacro apply-if
+  "If `pred` is true, call `f` with `args` else return `args`."
+  [pred# f# & args#]
+  `(if ~pred# (~f# ~@args#) ~@args#))
+
 (defn all [xs]
   (every? true? xs))
 
@@ -35,7 +40,7 @@
   input parametr to the composed function."
   `((comp ~@(butlast args)) ~(last args)))
 
-                                        ; taken from https://github.com/raynes/fs/blob/master/src/me/raynes/fs.clj
+;; taken from https://github.com/raynes/fs/blob/master/src/me/raynes/fs.clj
 (defn glob->regex
   "takes a glob-format string and returns a regex."
   [s]
@@ -44,7 +49,7 @@
          curly-depth 0]
     (let [[c j] stream]
       (cond
-        (nil? c) (re-pattern ; we add ^ and $ since we check only for file names
+        (nil? c) (re-pattern
                   (str "^" (if (= \. (first s)) "" "(?=[^\\.])") re "$"))
         (= c \\) (recur (nnext stream) (str re c c) curly-depth)
         (= c \/) (recur (next stream) (str re (if (= \. j) c "/(?=[^\\.])"))
